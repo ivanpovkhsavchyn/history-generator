@@ -6,6 +6,11 @@ import pyttsx3
 import PySimpleGUI as sg
 import time
 
+# Iniciamos la libreria que da voz a la historia
+engine = pyttsx3.init()
+engine.setProperty('rate', 150)
+engine.setProperty('voice', 'spanish')
+
 # Definimos el layout de la interfaz grafica
 layout = [
     [sg.Text("Presiona el botón para crear una historia aleatoria:")],
@@ -112,7 +117,11 @@ def show_history(window):
         if event == sg.WINDOW_CLOSED:
             break
         if event == "¡Generar historia!":
-            window["-OUTPUT-"].update(get_history(), visible=True)
+            history = get_history()
+            window["-OUTPUT-"].update(history, visible=True)
+            window.refresh()
+            engine.say(history)
+            engine.runAndWait()
     window.close()
 
 
